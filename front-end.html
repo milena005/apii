@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Adicionar Produto</title>
+</head>
+<body>
+    <h1>Adicionar Produto</h1>
+    <form>
+        Nome: <input type="text" id="nome" required><br>
+        Email: <input type="email" id="email" required><br>
+        Site: <input type="text" id="site" required><br>
+        <button type="submit">Salvar</button>
+    </form>
+
+    <div id="response"></div>
+
+    <script>
+        // Selecionando o formulário
+      
+
+        // Função assíncrona para lidar com o envio do formulário
+        document.addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevenir o comportamento padrão do formulário
+
+            // Coletando os dados do formulário
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const site = document.getElementById('site').value;
+
+            // Criando o objeto com os dados do formulário
+            const data = {
+                nome: nome,
+                email: email,
+                site: site
+            };
+
+            
+
+            try {
+                // Enviando os dados via fetch e aguardando a resposta
+                const response = await fetch('http://localhost/apii/adicionar_produto.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+      
+
+                // Verificando se a resposta foi bem-sucedida
+                const responseData = await response.json();
+    
+
+                // Exibe a mensagem na página
+                document.getElementById('response').innerHTML = responseData.message;
+            } catch (error) {
+                // Em caso de erro, exibe a mensagem
+                document.getElementById('response').innerHTML = "Erro: " + error;
+            }
+        });
+    </script>
+</body>
+</html>
